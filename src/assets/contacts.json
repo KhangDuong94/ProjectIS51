@@ -1,0 +1,31 @@
+[
+    {
+        "id": 1,
+        "firstName": "Miguel",
+        "lastName": "Sosa",
+        "email": "email@email.com",
+        "phone": "(559) 123-4567",
+        "editing": false
+    },
+
+    {
+        "id": 2,
+        "firstName": "ASAS",
+        "lastName": "SoFDsa",
+        "email": "emaiddl@email.com",
+        "phone": "(559) 223-4567",
+        "editing": false
+    },
+
+    {
+        "id": 1,
+        "firstName": "sadsa",
+        "lastName": "Sdfdfosa",
+        "email": "emaisdsdl@email.com",
+        "phone": "(559) 143-4567",
+        "editing": false
+    }
+]
+
+
+
