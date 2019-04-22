@@ -2,10 +2,16 @@ import { Component, OnInit } from '@angular/core';
 import { Contact } from './contact.model';
 import { Http } from '@angular/http';
 import { isNgTemplate } from '@angular/compiler';
+import { LocalStorageService } from '../localStorageService';
+import { ActivatedRoute } from '@angular/router';
+import { IUser } from '../login/login.component';
+import { longStackSupport } from 'q';
+import { Router } from '@angular/router';
+import { ToastService } from '../toast/toast.service';
 
 @Component({
   // tslint:disable-next-line:component-selector
-  selector: 'contact',
+  selector: 'app-contact',
   templateUrl: './contact.component.html',
   styleUrls: ['./contact.component.css']
 })
@@ -13,10 +19,28 @@ export class ContactComponent implements OnInit {
 
   contacts: Array<Contact> = [];
   contactParam = '';
-  constructor(private http: Http) { }
+  localStorageService: LocalStorageService<Contact>;
+  currentUser: IUser;
+  constructor(
+    private http: Http,
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
+    private toastService: ToastService
+  ) {
+    this.localStorageService = new LocalStorageService('contacts');
+  }
 
   async ngOnInit() {
+    const currentUser = this.localStorageService.getItemsFromLocalStorage('user');
+    if (currentUser == null) {
+      this.router.navigate(['login']);
+    }
     this.loadContacts();
+    this.activatedRoute.params.subscribe((data: IUser) => {
+      console.log('data passed from login component to this component: ', data);
+      this.currentUser = data;
+    });
+
   }
 
   async loadContacts() {
@@ -35,7 +59,14 @@ export class ContactComponent implements OnInit {
   }
 
   addContact() {
-    this.contacts.unshift(new Contact({}));
+    this.contacts.unshift(new Contact({
+      id: null,
+      firstName: null,
+      lastName: null,
+      phone: null,
+      email: null
+    }));
+
   }
 
   deleteContact(index: number) {
@@ -45,19 +76,40 @@ export class ContactComponent implements OnInit {
   }
 
   saveContact(contact: any) {
-    contact.editing = false;
-    this.sortbyID(this.contacts);
+    // const id = contact.id;
+    // const firstName = contact.firstName;
+    // const lastName = contact.lastName;
+    let hasError = false;
+    Object.keys(contact).forEach((key: any) => {
+      if (contact[key] == null) {
+        hasError = true;
+        this.toastService.showToast(
+          'danger',
+          'Save failed! Property ${key} must not be empty',
+          2000
+        );
+      }
+    });
+
+    if (!hasError) {
+      contact.editing = false;
+      this.saveItemsToLocalStorage(this.contacts);
+      this.sortbyID(this.contacts);
+    }
+
   }
 
   saveItemsToLocalStorage(contacts: Array<Contact>) {
-    const savedContacts = localStorage.setItem('contacts', JSON.stringify(contacts));
-    console.log('from saveItemsToLocalStorage saved Contacts: ', savedContacts);
-    return savedContacts;
+    return this.localStorageService.saveItemsToLocalStorage(contacts);
+    // const savedContacts = localStorage.setItem('contacts', JSON.stringify(contacts));
+    // console.log('from saveItemsToLocalStorage saved Contacts: ', savedContacts);
+    // return savedContacts;
   }
 
   getItemsFromLocalStorage(key: string) {
-    const savedContacts = JSON.parse(localStorage.getItem(key));
-    return savedContacts;
+    return this.localStorageService.getItemsFromLocalStorage();
+    // const savedContacts = JSON.parse(localStorage.getItem(key));
+    // return savedContacts;
   }
 
 
@@ -80,6 +132,16 @@ export class ContactComponent implements OnInit {
     contacts.sort((prevContact: Contact, presContact: Contact) => {
       return prevContact.id > presContact.id ? 1 : -1;
     });
+
+
+  }
+
+  logout() {
+    // clear localStorage
+    this.localStorageService.clearItemFromLocalStorage('user');
+    // navigate to login
+    this.router.navigate(['']);
+
   }
 
 }

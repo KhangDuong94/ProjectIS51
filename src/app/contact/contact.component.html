@@ -1,3 +1,5 @@
+<app-toast></app-toast>
+
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary main-nav">
   <a class="navbar-brand" href="#">Navbar</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -13,10 +15,21 @@
       <li class="nav-item active">
         <a class="nav-link" href="#">Contacts <span class="sr-only">(current)</span></a>
       </li>
+      <li class="nav-item active">
+        <a class="nav-link">
+          Hello {{currentUser.username}}!
+        </a>
+      </li>
     </ul>
     <form class="form-inline my-2 my-lg-0">
-      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" [(ngModel)]='contactParams' name="search">
-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit" (click)="searchContact(contactParams)">Search</button>
+      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"
+        [(ngModel)]='contactParams' name="search">
+      <div class="btn-group">
+        <button class="btn btn-light" type="submit" (click)="searchContact(contactParams)">Search</button>
+        <button class="btn btn-danger" type="submit" (click)="logout()">
+          Logout
+        </button>
+      </div>
     </form>
   </div>
 </nav>
@@ -42,7 +55,7 @@
 </ul>
 
 
-<div class="contact-grid">
+<div class="contact-grid text-light">
   <table class="table">
     <thead class="thead-dark">
       <tr>
@@ -54,7 +67,7 @@
         <th scope="col"></th>
       </tr>
     </thead>
-    <tbody>
+    <tbody class="text-light">
       <tr *ngFor="let contact of contacts; let i = index">
         <th *ngIf="!contact.editing" scope="row">{{contact.id}}</th>
         <td *ngIf="!contact.editing">{{contact.firstName}}</td>
