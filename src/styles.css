@@ -4,4 +4,13 @@ html, body {
     max-height: 100vh;
     max-width: 100vw;
     overflow: hidden;
+    background-color: rgba(0, 0, 20, 0.849);
 }
+
+.box-shadow {
+    display: block;
+    -webkit-box-shadow: 10px 10px 14px -2px rgba(26,90,163,0.65);
+-moz-box-shadow: 10px 10px 14px -2px rgba(26,90,163,0.65);
+box-shadow: 10px 10px 14px -2px rgba(26,90,163,0.65);
+}
+
