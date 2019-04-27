@@ -1,0 +1,20 @@
+
+.center {
+    align-items: center;
+}
+.pull-right {
+    float: right;
+ }
+ 
+ .side-side {
+    display: flex;
+ }
+ 
+ .space-out {
+    padding: 50px;
+ }
+ 
+ .resize{
+   width:100%;
+   max-width:75px;
+}

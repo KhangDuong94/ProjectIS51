@@ -1,9 +1,9 @@
 html, body {
-    height: 100vh;
-    width: 100vw;
-    max-height: 100vh;
-    max-width: 100vw;
-    overflow: hidden;
+    /* height: 300vh;
+    width: 300vw; */
+    max-height: 300vh;
+    max-width: 300vw;
+    /* overflow: hidden; */
     background-color: rgba(0, 0, 20, 0.849);
 }
 

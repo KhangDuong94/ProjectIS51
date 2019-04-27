@@ -24,10 +24,10 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.currentUser = this.localStorageService.getItemsFromLocalStorage();
-    if (this.currentUser != null) {
-      this.router.navigate(['contacts']);
-    }
+    // this.currentUser = this.localStorageService.getItemsFromLocalStorage();
+    // if (this.currentUser != null) {
+    //   this.router.navigate(['contacts']);
+    // }
   }
 
   login(user: IUser) {
