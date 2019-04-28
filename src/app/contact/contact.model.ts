@@ -7,8 +7,14 @@ interface IContact {
     email?: string;
     phone?: string;
     editing?: boolean;
+    rating?: number;
 }
 
+interface IPerson {
+    name: string;
+    school: string;
+    age: number;
+}
 
 export class Contact {
 
@@ -18,8 +24,8 @@ export class Contact {
     public email?: string;
     public phone?: string;
     public editing?: boolean;
+    public rating?: number; // is a number or null
   fullName: string;
-
 
     constructor(contact: IContact) {
         contact.editing = this.setState(contact);

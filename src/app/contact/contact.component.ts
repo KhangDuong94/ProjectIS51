@@ -23,6 +23,7 @@ export class ContactComponent implements OnInit {
   contactParam = '';
   localStorageService: LocalStorageService<Contact>;
   currentUser: IUser;
+  ratings: number[];
   constructor(
     private http: Http,
     private activatedRoute: ActivatedRoute,
@@ -31,6 +32,7 @@ export class ContactComponent implements OnInit {
 
   ) {
     this.localStorageService = new LocalStorageService('contacts');
+    this.ratings = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   }
 
   async ngOnInit() {
@@ -58,16 +60,26 @@ export class ContactComponent implements OnInit {
 
   async loadItemsFromFile() {
     const data = await this.http.get('assets/contacts.json').toPromise();
+    console.log('[loadItemsFromFile] data:', data);
     return data.json();
   }
 
   addContact() {
+    // take the max of all existing ids and add 1
+    let maxId = 0;
+    for (const contact of this.contacts) {
+      if (contact.id > maxId) {
+        maxId = contact.id;
+      }
+    }
+
     this.contacts.unshift(new Contact({
-      id: null,
+      id: maxId + 1,
       firstName: null,
       lastName: null,
       phone: null,
-      email: null
+      email: null,
+      rating: 0,
     }));
 
   }
@@ -76,6 +88,11 @@ export class ContactComponent implements OnInit {
     this.contacts.splice(index, 1);
     this.saveItemsToLocalStorage(this.contacts);
 
+  }
+
+  addRating(i: number, rating: number) {
+    const contact = this.contacts[i]; // contact is the object at index i of the contacts array
+    contact.rating = rating; // assign 5 to the rating of this contact
   }
 
   saveContact(contact: any) {
@@ -88,7 +105,7 @@ export class ContactComponent implements OnInit {
         hasError = true;
         this.toastService.showToast(
           'danger',
-          'Save failed! Property ${key} must not be empty',
+          `Save failed! Property ${key} must not be empty`,
           2000
         );
       }
@@ -136,7 +153,9 @@ export class ContactComponent implements OnInit {
       return prevContact.id > presContact.id ? 1 : -1;
     });
 
-
+  }
+  setRating(contact: Contact, rating: number) {
+    contact.rating = rating;
   }
 
   logout() {
@@ -151,9 +170,5 @@ export class ContactComponent implements OnInit {
     const selectValue = document.getElementById('dropdown-menu');
   }
 
+
 }
-
-
-
-
-
