@@ -5,11 +5,12 @@ import { AppComponent } from './app.component';
 import { ContactComponent } from './contact/contact.component';
 import { FormsModule } from '@angular/forms';
 
-import { ToastModule } from  './toast/toast.module';
+import { ToastModule } from './toast/toast.module';
 import { LoginComponent } from './login/login.component';
-
+import {MatSelectModule} from '@angular/material/select';
 import { AppRoutes } from './app.routes';
 import { FilmComponent } from './film/film.component';
+
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { FilmComponent } from './film/film.component';
     ContactComponent,
     LoginComponent,
     FilmComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -24,6 +26,7 @@ import { FilmComponent } from './film/film.component';
     FormsModule,
     ToastModule,
     AppRoutes,
+    MatSelectModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -9,9 +9,11 @@ import { longStackSupport } from 'q';
 import { Router } from '@angular/router';
 import { ToastService } from '../toast/toast.service';
 
+
+
 @Component({
   // tslint:disable-next-line:component-selector
-  selector: 'app-contact',
+  selector: 'contact',
   templateUrl: './contact.component.html',
   styleUrls: ['./contact.component.css']
 })
@@ -25,7 +27,8 @@ export class ContactComponent implements OnInit {
     private http: Http,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private toastService: ToastService
+    private toastService: ToastService,
+
   ) {
     this.localStorageService = new LocalStorageService('contacts');
   }
@@ -144,6 +147,9 @@ export class ContactComponent implements OnInit {
 
   }
 
+  getSelectValue() {
+    const selectValue = document.getElementById('dropdown-menu');
+  }
 
 }
 

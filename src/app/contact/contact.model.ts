@@ -1,4 +1,5 @@
 
+
 interface IContact {
     id?: number;
     firstName?: string;
@@ -7,6 +8,8 @@ interface IContact {
     phone?: string;
     editing?: boolean;
 }
+
+
 export class Contact {
 
     public id?: number;
@@ -16,6 +19,7 @@ export class Contact {
     public phone?: string;
     public editing?: boolean;
   fullName: string;
+
 
     constructor(contact: IContact) {
         contact.editing = this.setState(contact);
