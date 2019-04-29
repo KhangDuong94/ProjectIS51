@@ -9,7 +9,9 @@ import { ToastModule } from './toast/toast.module';
 import { LoginComponent } from './login/login.component';
 import {MatSelectModule} from '@angular/material/select';
 import { AppRoutes } from './app.routes';
-import { FilmComponent } from './film/film.component';
+import { FilmDatabaseComponent } from './film-database/film-database.component';
+
+
 
 
 @NgModule({
@@ -17,7 +19,7 @@ import { FilmComponent } from './film/film.component';
     AppComponent,
     ContactComponent,
     LoginComponent,
-    FilmComponent,
+    FilmDatabaseComponent
 
   ],
   imports: [

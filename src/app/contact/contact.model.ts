@@ -2,30 +2,26 @@
 
 interface IContact {
     id?: number;
-    firstName?: string;
-    lastName?: string;
-    email?: string;
-    phone?: string;
+    title?: string;
+    filmGenre?: string;
+    releaseDate?: string;
+    review?: string;
     editing?: boolean;
     rating?: number;
 }
 
-interface IPerson {
-    name: string;
-    school: string;
-    age: number;
-}
+
 
 export class Contact {
 
     public id?: number;
-    public firstName?: string;
-    public lastName?: string;
-    public email?: string;
-    public phone?: string;
+    public title?: string;
+    public filmGenre?: string;
+    public releaseDate?: string;
+    public review?: string;
     public editing?: boolean;
     public rating?: number; // is a number or null
-  fullName: string;
+  filmDate: string;
 
     constructor(contact: IContact) {
         contact.editing = this.setState(contact);

@@ -11,6 +11,7 @@ import { ToastService } from '../toast/toast.service';
 
 
 
+
 @Component({
   // tslint:disable-next-line:component-selector
   selector: 'contact',
@@ -30,6 +31,7 @@ export class ContactComponent implements OnInit {
     private router: Router,
     private toastService: ToastService,
 
+
   ) {
     this.localStorageService = new LocalStorageService('contacts');
     this.ratings = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
@@ -38,6 +40,7 @@ export class ContactComponent implements OnInit {
   async ngOnInit() {
     const currentUser = this.localStorageService.getItemsFromLocalStorage('user');
     if (currentUser == null) {
+      console.log('no user found');
       this.router.navigate(['login']);
     }
     this.loadContacts();
@@ -55,11 +58,11 @@ export class ContactComponent implements OnInit {
     } else {
       this.contacts = await this.loadItemsFromFile();
     }
-    this.sortbyID(this.contacts);
+    this.sortByRating(this.contacts);
   }
 
   async loadItemsFromFile() {
-    const data = await this.http.get('assets/contacts.json').toPromise();
+    const data = await this.http.get('assets/Films.json').toPromise();
     console.log('[loadItemsFromFile] data:', data);
     return data.json();
   }
@@ -75,10 +78,10 @@ export class ContactComponent implements OnInit {
 
     this.contacts.unshift(new Contact({
       id: maxId + 1,
-      firstName: null,
-      lastName: null,
-      phone: null,
-      email: null,
+      title: null,
+      filmGenre: null,
+      review: null,
+      releaseDate: null,
       rating: 0,
     }));
 
@@ -97,8 +100,8 @@ export class ContactComponent implements OnInit {
 
   saveContact(contact: any) {
     // const id = contact.id;
-    // const firstName = contact.firstName;
-    // const lastName = contact.lastName;
+    // const title = contact.title;
+    // const filmGenre = contact.filmGenre;
     let hasError = false;
     Object.keys(contact).forEach((key: any) => {
       if (contact[key] == null) {
@@ -114,7 +117,7 @@ export class ContactComponent implements OnInit {
     if (!hasError) {
       contact.editing = false;
       this.saveItemsToLocalStorage(this.contacts);
-      this.sortbyID(this.contacts);
+      this.sortByRating(this.contacts);
     }
 
   }
@@ -136,10 +139,10 @@ export class ContactComponent implements OnInit {
   searchContact(params: string) {
 
     this.contacts = this.contacts.filter((item: Contact) => {
-      const fullName = item.firstName + ' ' + item.lastName;
+      const filmDate = item.title + ' ' + item.releaseDate;
 
-      console.log('full name is ---->', fullName);
-      if (params === item.fullName || params === item.firstName || params === item.lastName) {
+      console.log('full name is ---->', filmDate);
+      if (params === item.filmDate || params === item.title || params === item.filmGenre || params === item.releaseDate) {
         return true;
       } else {
         return false;
@@ -148,15 +151,28 @@ export class ContactComponent implements OnInit {
 
   }
 
-  sortbyID(contacts: Array<Contact>) {
+  sortByRating(contacts: Array<Contact>) {
     contacts.sort((prevContact: Contact, presContact: Contact) => {
-      return prevContact.id > presContact.id ? 1 : -1;
+      return prevContact.rating < presContact.rating ? 1 : -1;
     });
-
   }
+
+  sortLowtoHigh(contacts: Array<Contact>) {
+    contacts.sort((prevContact: Contact, presContact: Contact) => {
+      return prevContact.rating > presContact.rating ? 1 : -1;
+    });
+  }
+
+  randomSort() {
+    const points = [40, 100, 1, 5, 25, 10];
+    points.sort((a, b) => 0.5 - Math.random());
+  }
+
   setRating(contact: Contact, rating: number) {
     contact.rating = rating;
   }
+
+
 
   logout() {
     // clear localStorage
